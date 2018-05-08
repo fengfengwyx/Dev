@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+   {% load bootstrap3 %}
+   {% bootstrap_css %}
+   {% bootstrap_javascript %}
+   <title>Sign</title>
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <!-- 将页面标题设置为发布会名称 -->
+          <a class="navbar-brand" href="#">{{ event.name }}</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/event_manage/">发布会</a></li>
+            <li><a href="/guest_manage/">嘉宾</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <!--签到功能-->
+    <div class="page-header" style="padding-top: 30px;">
+        <div id="navbar" class="navbar-collapse collapse">
+            <!-- 签到表单会通过POST请求提交，二级目录会以发布会 id 替换 -->
+            <form class="navbar-form" method="post" action="/sign_index_action/{{ event.id }}/">
+                <div class="form-group">
+                    <input name="phone" type="text" placeholder="输入手机号" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-success">签到</button>
+                <font color="red">
+                    <!-- 如果签到失败，将会显示 hint 提示信息;如果签到成功，将会显示hint提示信息和用户名称，及手机号 -->
+                    <br>{{ hint }}
+                    <br>{{ guest.realname }}
+                    <br>{{ guest.phone }}
+                </font>
+                {% csrf_token %}
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
